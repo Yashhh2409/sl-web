@@ -45,7 +45,7 @@ const Login = () => {
           value={inputTXT.iccid}
           onChange={handleChange}
           placeholder="Enter ICCID"
-          className="border-1 border-blue-400 px-4 rounded-full py-2 md:py-4 text-sm"
+          className="border-1 border-blue-400 px-4 rounded-full py-2 md:py-4 text-sm text-blue-400"
         />
         <input
           type="text"
@@ -53,7 +53,7 @@ const Login = () => {
           value={inputTXT.password}
           onChange={handleChange}
           placeholder="Enter Password"
-          className="border-1 border-blue-400 px-4 rounded-full py-2 md:py-4 text-sm"
+          className="border-1 border-blue-400 px-4 rounded-full py-2 md:py-4 text-sm text-blue-400"
         />
         <button type="submit" className="bg-blue-400 self-center-safe rounded-full text-[14px] md:text-[18px] tracking-wider px-6 py-2 md:py-3 cursor-pointer outline-none focus-within:border-red-800 transition-colors duration-200 ">
           Go

@@ -90,11 +90,11 @@ const Page = () => {
       <div className="w-full flex flex-col-reverse md:flex-row items-center justify-between gap-4 p-5">
         {/* Image Section */}
         <div className="w-[50%] flex items-center justify-center">
-          <div className="border-2 border-blue-400 px-4 py-1 rounded-md text-blue-400">
+          <div className="px-4 py-1 rounded-md text-blue-400">
             <h2 className="text-center mb-2">
-              Recent Image for ICCID: {iccid}
+              <span className="font-bold tracking-wide">Recent Image for ICCID:</span> {iccid}
             </h2>
-            <div className="w-[200px] md:w-[300px] h-[120px] md:h-[300px]">
+            <div className="w-[300px] md:w-[300px] h-[250px] md:h-[300px]">
               {imageURL ? (
                 <Image
                   src={imageURL}

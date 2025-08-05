@@ -13,20 +13,30 @@ const Page = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    let intervalId;
+
     const fetchImage = async () => {
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/recent-image?iccid=${iccid}`, {
-          method: "GET",
-          headers: {
-           Authorization: `Basic ${btoa(`${iccid}:${password}`)}`,
-          },
-        });
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_BASE_URL}/recent-image?iccid=${iccid}`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Basic ${btoa(`${iccid}:${password}`)}`,
+            },
+          }
+        );
 
         const data = await res.json();
-        console.log("API Response:", data); // Debugging
+        // console.log("API Response:", data);
 
         if (res.ok && data?.imageUrl) {
-          setImageURL(data.imageUrl);
+          setImageURL((prev) => {
+            // Only update if image changed
+            if (prev !== data.imageUrl) return data.imageUrl;
+            return prev;
+          });
+          setError(null);
         } else {
           setError(data?.error || "Image not found or invalid response.");
         }
@@ -37,11 +47,43 @@ const Page = () => {
     };
 
     if (iccid && password) {
-      fetchImage();
+      fetchImage(); // initial fetch
+      intervalId = setInterval(fetchImage, 5000); // re-fetch every 5s
     }
+
+    return () => {
+      clearInterval(intervalId); // cleanup on unmount
+    };
   }, [iccid, password]);
-  console.log("img url:", imageURL);
-  
+
+  const handleEvent = async (eventType) => {
+     console.log("Triggered event:", eventType); 
+  if (!iccid) {
+    console.error("ICCID is missing.");
+    return;
+  }
+
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/event-logs`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ event: eventType, iccid }),
+    });
+
+    if (!res.ok) {
+      console.error("Server error:", res.status, await res.text());
+      return;
+    }
+
+    const result = await res.json();
+    console.log("Event log response:", result);
+  } catch (error) {
+    console.error("Failed to send event:", error);
+  }
+};
+
+
+  // console.log("img url:", imageURL);
 
   return (
     <div className="w-full h-full flex items-center justify-center">
@@ -49,7 +91,9 @@ const Page = () => {
         {/* Image Section */}
         <div className="w-[50%] flex items-center justify-center">
           <div className="border-2 border-blue-400 px-4 py-1 rounded-md text-blue-400">
-            <h2 className="text-center mb-2">Recent Image for ICCID: {iccid}</h2>
+            <h2 className="text-center mb-2">
+              Recent Image for ICCID: {iccid}
+            </h2>
             <div className="w-[200px] md:w-[300px] h-[120px] md:h-[300px]">
               {imageURL ? (
                 <Image
@@ -57,7 +101,7 @@ const Page = () => {
                   width={400}
                   height={400}
                   alt="img"
-                  className="w-full h-full object-fill"
+                  className="w-full h-full object-contain"
                 />
               ) : error ? (
                 <p className="text-red-500 text-center">{error}</p>
@@ -80,10 +124,16 @@ const Page = () => {
               className="w-full h-full"
             />
           </div>
-          <button className="w-[250px] border-2 border-blue-400 px-4 py-1 rounded-full text-blue-400 cursor-pointer">
+          <button
+            onClick={() => handleEvent("KEY_RELEASE_BTN_CLICKED")}
+            className="w-[250px] border-2 border-blue-400 px-4 py-1 rounded-full text-blue-400 cursor-pointer hover:text-blue-700 hover:border-blue-600 transition-colors duration-200"
+          >
             Release Key
           </button>
-          <button className="w-[250px] border-2 border-blue-400 px-4 py-1 rounded-full text-blue-400 cursor-pointer">
+          <button
+            onClick={() => handleEvent("SHACKLE_RELEASE_BTN_CLICKED")}
+            className="w-[250px] border-2 border-blue-400 px-4 py-1 rounded-full text-blue-400 cursor-pointer hover:text-blue-700 hover:border-blue-600 transition-colors duration-200"
+          >
             Release Shackle
           </button>
         </div>

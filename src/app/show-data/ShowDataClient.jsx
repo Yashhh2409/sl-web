@@ -52,7 +52,7 @@ const Page = () => {
     }
 
     return () => {
-      clearInterval(intervalId); // cleanup on unmount
+      clearInterval(intervalId); 
     };
   }, [iccid, password]);
 
@@ -126,13 +126,13 @@ const Page = () => {
           </div>
           <button
             onClick={() => handleEvent("KEY_RELEASE_BTN_CLICKED")}
-            className="w-[250px] border-2 border-blue-400 px-4 py-1 rounded-full text-blue-400 cursor-pointer hover:text-blue-700 hover:border-blue-600 transition-colors duration-200"
+            className="w-[250px] border-2 border-blue-400 px-4 py-1 rounded-full font-bold tracking-wide cursor-pointer hover:border-blue-600 transition-colors duration-200 bg-blue-400 hover:bg-blue-600 text-white"
           >
             Release Key
           </button>
           <button
             onClick={() => handleEvent("SHACKLE_RELEASE_BTN_CLICKED")}
-            className="w-[250px] border-2 border-blue-400 px-4 py-1 rounded-full text-blue-400 cursor-pointer hover:text-blue-700 hover:border-blue-600 transition-colors duration-200"
+            className="w-[250px] border-2 border-blue-400 px-4 py-1 rounded-full font-bold tracking-wide cursor-pointer hover:border-blue-600 transition-colors duration-200 bg-blue-400 hover:bg-blue-600 text-white"
           >
             Release Shackle
           </button>

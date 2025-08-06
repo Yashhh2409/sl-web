@@ -1,0 +1,35 @@
+
+AT+HTTPCLEAN?
+AT+HTTPURL="https://deviceapi.lubn.com/keybox/bootup"
+AT+HTTPADDHEAD="Content-Type: application/json"
+AT+HTTPADDHEAD="X-App-Version: 3.00"
+AT+HTTPADDHEAD="Authorization: Basic ODk5MTAwMDkyMzEwODYzOTIwOTpka19oSUNiQVhuQWVOb3h1ZFlo"
+AT+HTTPADDHEAD="Cache-Control: no-cache"
+AT+HTTPADDHEAD="Host: deviceapi.lubn.com"
+AT+HTTPADDHEAD="User-agent: C16QS"
+AT+HTTPADDHEAD="Accept: */*"
+AT+HTTPCONTENT=24
+{"key":"1","bat":"4070"}
+AT+HTTPREQUEST=POST
+AT+HTTPGETSTAT?
+AT+HTTPGETCONT?
+AT
+AT+CSQ
+AT+COPS?
+AT+CGPADDR
+AT
+AT+CSQ
+AT+HTTPCLEAN?
+AT+HTTPURL="https://deviceapi.lubn.com/keybox/shutdown"
+AT+HTTPADDHEAD="Content-Type: application/json"
+AT+HTTPADDHEAD="X-App-Version: 3.00"
+AT+HTTPADDHEAD="Authorization: Basic ODk5MTAwMDkyMzEwODYzOTIwOTpka19oSUNiQVhuQWVOb3h1ZFlo"
+AT+HTTPADDHEAD="Cache-Control: no-cache"
+AT+HTTPADDHEAD="Host: deviceapi.lubn.com"
+AT+HTTPADDHEAD="User-agent: C16QS"
+AT+HTTPADDHEAD="Accept: */*"
+AT+HTTPCONTENT=56
+{"bat":"3982","key":"1","sig":"15","shackleRelease":"0"}
+AT+HTTPREQUEST=POST
+AT+HTTPGETSTAT?
+AT+HTTPGETCONT?
